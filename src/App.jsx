@@ -50,6 +50,19 @@ const [actresses,setActresses]=useState([]);
                 )
               })
             }
+             <div className="col-12 bg-body-secondary text-center">
+              <h6>Female Casting</h6>
+            </div>
+            {
+              actresses.map((actress)=>{
+                return (
+                <div className="col-12 col-lg-6" >
+                  {/* i go straight away to create my card components */}
+                  <CastCard data={actress} key={actress.id}/>
+                </div>  
+                )
+              })
+            }
             </div>
           </div>
         
