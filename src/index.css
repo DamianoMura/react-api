@@ -44,3 +44,9 @@ header{
 .list-title{
   text-transform: uppercase;
 }
+
+.option-bar{
+  padding: 20px;
+  display:flex;
+  justify-content: space-between;
+}

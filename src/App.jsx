@@ -18,6 +18,8 @@ const [actresses,setActresses]=useState([]);
 const [newList, setNewList]=useState([])
 //thhis represents the list selected by the buttons for genders
 const [selectedList, setSelectedList]= useState([])
+//thhis represents the search input field
+const [search, setSearch]= useState([])
 
 // state variable to keep track to what to show based on the select in the header
 const [headerState, setHeaderState] =useState("all");
@@ -44,19 +46,7 @@ const [headerState, setHeaderState] =useState("all");
       setSelectedList([...mergedList])
     });
 },[actors])
-useEffect(()=>{
-  console.log(headerState);
-  if(headerState==="male"){
-    setSelectedList([...actors])
-  }
-  else if(headerState==="female"){
-    setSelectedList([...actresses])
-  }
-  else{
-    setSelectedList([...newList])
-  }
 
-},[headerState])
 
   return (
     <>
@@ -65,45 +55,48 @@ useEffect(()=>{
         <div className="container-fluid">
           <div className="row">
             <div className="col-12 ">
-              <div className="card">
-                <div className="card-header">
+              
+                <div className="option-bar">
                   <ul className="list-unstyled d-flex text-center ">
-                <li>
-                  <button 
-                      className="cast-sort"
-                      onClick={(e)=>{
-                        e.preventDefault();
-                        setHeaderState("male")
-                      }}
-                  >
-                    Actors
-                  </button>
-                </li>
-                <li>
-                  <button 
-                      className="cast-sort"
-                      onClick={(e)=>{
-                        e.preventDefault();
-                        setHeaderState("female")
-                      }}
-                  >
-                    Actresses
-                  </button>
-                </li>
-                <li>
-                  <button 
-                      className="cast-sort"
-                      onClick={(e)=>{
-                        e.preventDefault();
-                        setHeaderState("all")
-                      }}
-                  >
-                    All
-                  </button>
-                </li>
-              </ul>
+                    <li>
+                      <button 
+                        className="cast-sort"
+                        onClick={(e)=>{
+                          e.preventDefault();
+                          setHeaderState("male")
+                          setSelectedList([...actors])
+                        }}
+                      >
+                        Actors
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        className="cast-sort"
+                        onClick={(e)=>{
+                          e.preventDefault();
+                          setHeaderState("female")
+                          setSelectedList([...actresses])
+                        }}
+                      >
+                        Actresses
+                      </button>
+                    </li>
+                    <li>
+                      <button 
+                        className="cast-sort"
+                        onClick={(e)=>{
+                          e.preventDefault();
+                          setHeaderState("all")
+                          setSelectedList([...newList])
+                        }}
+                      >
+                        All
+                      </button>
+                    </li>
+                  </ul>
+                  <input type="text" />
                 </div>
-              </div>
             </div>
             <div className="col-2">
               <div className="sidebar">
