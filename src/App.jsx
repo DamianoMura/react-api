@@ -24,7 +24,7 @@ const [search, setSearch]= useState([])
 // state variable to keep track to what to show based on the select in the header
 const [headerState, setHeaderState] =useState("all");
 // state variable to keep the updatedList as a state 
-const [updatedList, setUpdatedList] =useState(selectedList);
+const [updatedList, setUpdatedList] =useState([]);
 
 //launching useState to load data on loading the page up both for male and female
  useEffect(()=>{
@@ -46,38 +46,47 @@ const [updatedList, setUpdatedList] =useState(selectedList);
 
       setNewList(mergedList);
       setSelectedList([...mergedList])
+      setUpdatedList([...mergedList])
     });
 },[actors])
 
 const handleClick= (e) =>{
   e.preventDefault();
   setHeaderState(e.target.value);
-  e.target.value==="male" ? setSelectedList([...actors]) :
-  e.target.value==="female" ? setSelectedList([...actresses]):
-  setSelectedList([...newList])
-                        
+  
+  
+  
 }
 
 const handleChange = (e) => {
   e.preventDefault();
   setSearch(e.target.value);
-  //function to sort actors
 
 }
 
 useEffect(()=>{
-  let updatedList=[];
+  const oldSearch=search;
+  headerState==="male" ? (setSelectedList([...actors],setUpdatedList([...actors]))) :
+  headerState==="female" ? (setSelectedList([...actresses]),setUpdatedList([...actresses])):
+  (setSelectedList([...newList]),
+  setUpdatedList([...newList])
+  )
+  setSearch('')
+  
+},[headerState])
+
+
+
+useEffect(()=>{
+  let filteredList=[];
   
   
   if(search){
-    updatedList=selectedList.filter((actor) => actor.name.toLowerCase().includes(search.toLowerCase()))
-    setUpdatedList([...updatedList])
+    filteredList=selectedList.filter((actor) => actor.name.toLowerCase().includes(search.toLowerCase()))
+    setUpdatedList([...filteredList])
   }
-  
-  
-
-
- },[search,headerState])
+ 
+ },[search])
   return (
     <>
       <Header/>

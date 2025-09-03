@@ -7,6 +7,7 @@ const {awards,
        death_year,
        image,
        known_for,
+       most_famous_movies,
        name,
        nationality
       }=props.data;  
@@ -37,16 +38,26 @@ const {awards,
                          })
                          :<li> {awards}</li>}
             </ul>
-             
-            <h6 className="mt-2 fw-bold">Known For : </h6>
+             {known_for ? <> <h6 className="mt-2 fw-bold">Known For : </h6>
             <ul className="list-unstyled d-flex">
              { Array.isArray(known_for) && known_for.length>0 
                         ? known_for.map((movie,index)=>{
                            return <li className='me-4' key={index}> { movie } 
                  </li>
                          })
-                         :<li> {awards}</li>}
-            </ul>
+                         :<li> {known_for}</li>}
+            </ul></>
+             
+            : most_famous_movies ? <><h6 className="mt-2 fw-bold">Known For : </h6>
+            <ul className="list-unstyled d-flex">
+             { Array.isArray(most_famous_movies) && most_famous_movies.length>0 
+                        ? most_famous_movies.map((movie,index)=>{
+                           return <li className='me-4' key={index}> { movie } 
+                 </li>
+                         })
+                         :<li> {most_famous_movies}</li>}
+            </ul></> : <></>}
+            
           </div>
         </div>
       </div>
