@@ -11,6 +11,7 @@ const {awards,
        nationality
       }=props.data;  
   return (
+  <div className="col-12 col-lg-6" >
     <div className="card mt-4">
       <div className="card-header d-flex justify-content-between p-3">
         <h4>{name}</h4> 
@@ -30,8 +31,8 @@ const {awards,
             <h6 className="mt-2 fw-bold">Awards : </h6>
             <ul className="list-unstyled d-flex">
              { Array.isArray(awards) && awards.length>0 
-                        ? awards.map((award)=>{
-                           return <li className='me-4'> { award } 
+                        ? awards.map((award,index)=>{
+                           return <li className='me-4' key={index}> { award } 
                  </li>
                          })
                          :<li> {awards}</li>}
@@ -40,8 +41,8 @@ const {awards,
             <h6 className="mt-2 fw-bold">Known For : </h6>
             <ul className="list-unstyled d-flex">
              { Array.isArray(known_for) && known_for.length>0 
-                        ? known_for.map((movie)=>{
-                           return <li className='me-4'> { movie } 
+                        ? known_for.map((movie,index)=>{
+                           return <li className='me-4' key={index}> { movie } 
                  </li>
                          })
                          :<li> {awards}</li>}
@@ -50,6 +51,7 @@ const {awards,
         </div>
       </div>
     </div>
+  </div> 
   )
 }
 

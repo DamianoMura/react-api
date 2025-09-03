@@ -23,6 +23,8 @@ const [search, setSearch]= useState([])
 
 // state variable to keep track to what to show based on the select in the header
 const [headerState, setHeaderState] =useState("all");
+// state variable to keep the updatedList as a state 
+const [updatedList, setUpdatedList] =useState(selectedList);
 
 //launching useState to load data on loading the page up both for male and female
  useEffect(()=>{
@@ -47,7 +49,35 @@ const [headerState, setHeaderState] =useState("all");
     });
 },[actors])
 
+const handleClick= (e) =>{
+  e.preventDefault();
+  setHeaderState(e.target.value);
+  e.target.value==="male" ? setSelectedList([...actors]) :
+  e.target.value==="female" ? setSelectedList([...actresses]):
+  setSelectedList([...newList])
+                        
+}
 
+const handleChange = (e) => {
+  e.preventDefault();
+  setSearch(e.target.value);
+  //function to sort actors
+
+}
+
+useEffect(()=>{
+  let updatedList=[];
+  
+  
+  if(search){
+    updatedList=selectedList.filter((actor) => actor.name.toLowerCase().includes(search.toLowerCase()))
+    setUpdatedList([...updatedList])
+  }
+  
+  
+
+
+ },[search,headerState])
   return (
     <>
       <Header/>
@@ -61,11 +91,8 @@ const [headerState, setHeaderState] =useState("all");
                     <li>
                       <button 
                         className="cast-sort"
-                        onClick={(e)=>{
-                          e.preventDefault();
-                          setHeaderState("male")
-                          setSelectedList([...actors])
-                        }}
+                        onClick={handleClick}
+                        value="male"
                       >
                         Actors
                       </button>
@@ -73,11 +100,8 @@ const [headerState, setHeaderState] =useState("all");
                     <li>
                       <button 
                         className="cast-sort"
-                        onClick={(e)=>{
-                          e.preventDefault();
-                          setHeaderState("female")
-                          setSelectedList([...actresses])
-                        }}
+                        onClick={handleClick}
+                        value="female"
                       >
                         Actresses
                       </button>
@@ -85,25 +109,27 @@ const [headerState, setHeaderState] =useState("all");
                     <li>
                       <button 
                         className="cast-sort"
-                        onClick={(e)=>{
-                          e.preventDefault();
-                          setHeaderState("all")
-                          setSelectedList([...newList])
-                        }}
+                        onClick={handleClick}
+                        value="all"
                       >
                         All
                       </button>
                     </li>
                   </ul>
-                  <input type="text" />
+                  <input type="text" 
+                         placeholder="Search by Name"
+                         id="search"
+                         value={search}
+                         onChange={handleChange}/>
+                         
                 </div>
             </div>
             <div className="col-2">
               <div className="sidebar">
                 <h6 className='list-title'>{headerState} actors list</h6>
-                <ul className='list-unstyled'>
+                <ul>
                   {
-                    selectedList.map((actor)=>{
+                    updatedList.map((actor)=>{
                       
                       return (
                       <li key={actor.id}> {actor.name}</li>
@@ -127,15 +153,10 @@ const [headerState, setHeaderState] =useState("all");
                     <h3 className='list-title'>{headerState} Actor Cards</h3>
                   </div>
                   {
-                    selectedList.map((actor)=>{
+                    updatedList.map((actor)=>{
                       
-                      return (
-                      <div className="col-12 col-lg-6" >
+                      return <CastCard data={actor} key={actor.id}/>
                       
-                        <CastCard data={actor} key={actor.id}/>
-                      </div> 
-                      
-                      )
                     })
                   }
                 </div>
