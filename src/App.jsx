@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Header from '../components/Header'
+import CastCard from '../components/CastCard';
 
 
 //actresses endpoint 
@@ -36,11 +37,15 @@ const [actresses,setActresses]=useState([]);
             <div className="col-12 text-center">
               <h3>Casting list</h3>
             </div>
+            <div className="col-12 bg-body-secondary text-center">
+              <h6>Male Casting</h6>
+            </div>
             {
               actors.map((actor)=>{
                 return (
                 <div className="col-12 col-lg-6" >
                   {/* i go straight away to create my card components */}
+                  <CastCard data={actor} key={actor.id}/>
                 </div>  
                 )
               })
