@@ -14,7 +14,13 @@ function App() {
 const [actors,setActors]=useState([]);
 //setting state variable for actresses
 const [actresses,setActresses]=useState([]);
+//merged list of actors and actresses
 const [newList, setNewList]=useState([])
+//thhis represents the list selected by the buttons for genders
+const [selectedList, setSelectedList]= useState([])
+
+// state variable to keep track to what to show based on the select in the header
+const [headerState, setHeaderState] =useState("all");
 
 //launching useState to load data on loading the page up both for male and female
  useEffect(()=>{
@@ -25,49 +31,134 @@ const [newList, setNewList]=useState([])
  useEffect(()=>{
     axios.get(actressesUrl).then((resp)=>{
       setActresses(resp.data)
+      
+      /*merging lists*/ 
+      const mergedList = [...actors];
+
+      actresses.map((actress)=>{
+        actress.id=actors[actors.length - 1].id + actress.id;
+        mergedList.push(actress)
+      });
+
+      setNewList(mergedList);
+      setSelectedList([...mergedList])
     });
 },[actors])
 useEffect(()=>{
-  /*merging lists*/ 
-  // console.log(actors)
-  // console.log(actresses)
-  const mergedList = [...actors];
-  //this way we eliminate duplicates on id keys and we always work with both lists
-  actresses.map((actress)=>{
-    actress.id=actors[actors.length - 1].id + actress.id;
-    console.log(actress);
-    mergedList.push(actress)
-    console.log(mergedList);
-    
-  })
-  setNewList(mergedList)  
-},[actresses])
+  console.log(headerState);
+  if(headerState==="male"){
+    setSelectedList([...actors])
+  }
+  else if(headerState==="female"){
+    setSelectedList([...actresses])
+  }
+  else{
+    setSelectedList([...newList])
+  }
+
+},[headerState])
 
   return (
     <>
       <Header/>
       <main>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
-            <div className="col-12 text-center">
-              <h3>Casting list</h3>
+            <div className="col-12 ">
+              <div className="card">
+                <div className="card-header">
+                  <ul className="list-unstyled d-flex text-center ">
+                <li>
+                  <button 
+                      className="cast-sort"
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        setHeaderState("male")
+                      }}
+                  >
+                    Actors
+                  </button>
+                </li>
+                <li>
+                  <button 
+                      className="cast-sort"
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        setHeaderState("female")
+                      }}
+                  >
+                    Actresses
+                  </button>
+                </li>
+                <li>
+                  <button 
+                      className="cast-sort"
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        setHeaderState("all")
+                      }}
+                  >
+                    All
+                  </button>
+                </li>
+              </ul>
+                </div>
+              </div>
             </div>
-           
-            {
-              newList.map((actor)=>{
-                
-                return (
-                <div className="col-12 col-lg-6" >
-                 
-                  <CastCard data={actor} key={actor.id}/>
-                </div> 
-                
-                )
-              })
-            }
-            
+            <div className="col-2">
+              <div className="sidebar">
+                <h6 className='list-title'>{headerState} actors list</h6>
+                <ul className='list-unstyled'>
+                  {
+                    selectedList.map((actor)=>{
+                      
+                      return (
+                      <li key={actor.id}> {actor.name}</li>
+                      
+                      )
+                    })
+                  }
+                  
+                </ul>
+              </div>
+            </div>
+         
+        
+        
+          
+        
+            <div className="col-10">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-12">
+                    <h3 className='list-title'>{headerState} Actor Cards</h3>
+                  </div>
+                  {
+                    selectedList.map((actor)=>{
+                      
+                      return (
+                      <div className="col-12 col-lg-6" >
+                      
+                        <CastCard data={actor} key={actor.id}/>
+                      </div> 
+                      
+                      )
+                    })
+                  }
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        
+
+
+
+
+
+
+
+        
         
       </main>
     </>

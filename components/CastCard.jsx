@@ -19,7 +19,7 @@ const {awards,
       <div className="card-body">
         <div className="cast-info d-flex">
            <img src={image} alt="" /> 
-          <div className="info p-3">
+          <div className="bio p-3">
             <h5>Biography : </h5>
             <p>{biography}</p>
           </div>

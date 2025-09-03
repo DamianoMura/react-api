@@ -8,6 +8,7 @@ header{
   background-color: bisque;
   padding:20px;
   text-align: center;
+  justify-items: center;
 }
 
 
@@ -15,4 +16,31 @@ header{
   height: 250px;
   width: 160px;
   object-fit: cover;
+}
+
+.cast-bio{
+  font-size: 15px;
+}
+
+.cast-sort{
+  border:none;
+  background-color: rgba(240, 248, 255, 0);
+  padding:0px 15px;
+}
+
+.sidebar{
+  padding: 10px;
+  
+}
+
+.info{
+  
+  min-height:250px;
+  padding:25px;
+  margin-top: 10px;
+
+}
+
+.list-title{
+  text-transform: uppercase;
 }
