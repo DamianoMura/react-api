@@ -14,20 +14,35 @@ function App() {
 const [actors,setActors]=useState([]);
 //setting state variable for actresses
 const [actresses,setActresses]=useState([]);
+const [newList, setNewList]=useState([])
 
 //launching useState to load data on loading the page up both for male and female
  useEffect(()=>{
     axios.get(actorsUrl).then((resp)=>{
       setActors(resp.data)
-      console.log(resp.data)
     });
 },[])
  useEffect(()=>{
     axios.get(actressesUrl).then((resp)=>{
       setActresses(resp.data)
-      console.log(resp.data)
     });
-},[])
+},[actors])
+useEffect(()=>{
+  /*merging lists*/ 
+  // console.log(actors)
+  // console.log(actresses)
+  const mergedList = [...actors];
+  //this way we eliminate duplicates on id keys and we always work with both lists
+  actresses.map((actress)=>{
+    actress.id=actors[actors.length - 1].id + actress.id;
+    console.log(actress);
+    mergedList.push(actress)
+    console.log(mergedList);
+    
+  })
+  setNewList(mergedList)  
+},[actresses])
+
   return (
     <>
       <Header/>
@@ -37,32 +52,20 @@ const [actresses,setActresses]=useState([]);
             <div className="col-12 text-center">
               <h3>Casting list</h3>
             </div>
-            <div className="col-12 bg-body-secondary text-center">
-              <h6>Male Casting</h6>
-            </div>
+           
             {
-              actors.map((actor)=>{
+              newList.map((actor)=>{
+                
                 return (
                 <div className="col-12 col-lg-6" >
-                  {/* i go straight away to create my card components */}
+                 
                   <CastCard data={actor} key={actor.id}/>
-                </div>  
+                </div> 
+                
                 )
               })
             }
-             <div className="col-12 bg-body-secondary text-center">
-              <h6>Female Casting</h6>
-            </div>
-            {
-              actresses.map((actress)=>{
-                return (
-                <div className="col-12 col-lg-6" >
-                  {/* i go straight away to create my card components */}
-                  <CastCard data={actress} key={actress.id}/>
-                </div>  
-                )
-              })
-            }
+            
             </div>
           </div>
         
